@@ -20,6 +20,7 @@ sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "polkad
 # Polkadot
 polkadot-node-primitives = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.18" }
 polkadot-node-subsystem = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.18" }
+polkadot-parachain = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.18" }
 polkadot-overseer = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.18" }
 polkadot-primitives = { git = "https://github.com/paritytech/polkadot", branch = "release-v0.9.18" }
 

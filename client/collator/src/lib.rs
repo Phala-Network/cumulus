@@ -156,7 +156,9 @@ where
 		let runtime_api = self.runtime_api.runtime_api();
 		let block_id = BlockId::Hash(block_hash);
 
-		let api_version =
+		let api_version = if *header.number() >= 90052u32.into() {
+			2
+		} else {
 			match runtime_api.api_version::<dyn CollectCollationInfo<Block>>(&block_id)? {
 				Some(version) => version,
 				None => {
@@ -166,7 +168,13 @@ where
 					);
 					return Ok(None)
 				},
-			};
+			}
+		};
+
+		tracing::warn!(
+			target: LOG_TARGET,
+			"Got runtime api version: {}, block_hash: {}, header_num: {}", api_version, block_hash, header.number(),
+		);
 
 		let collation_info = if api_version < 2 {
 			#[allow(deprecated)]
@@ -250,6 +258,7 @@ where
 			.await?;
 
 		let (header, extrinsics) = candidate.block.deconstruct();
+		let prev_hash = *header.parent_hash();
 
 		let compact_proof = match candidate
 			.proof
